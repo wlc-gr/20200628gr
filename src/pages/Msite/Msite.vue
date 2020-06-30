@@ -1,7 +1,7 @@
 <template>
     <div class="msite">
         <!--首页头部-->
-        <HeaderTop title="昌平区北七家宏福科技园(337省道北)">
+        <HeaderTop :title="address.name">
             <span class="header_search" slot="left">
                 <i class="iconfont icon-sousuo"></i>
             </span>
@@ -11,112 +11,21 @@
         </HeaderTop>
         <!--首页导航-->
         <nav class="msite_nav">
-            <div class="swiper-container">
+            <div class="swiper-container" v-if="categoryArray.length">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <a href="javascript:" class="link_to_food">
+                    <div class="swiper-slide" v-for="(array,index) in categoryArray" :key="index">
+                        <a href="javascript:" class="link_to_food" v-for="(item,index) in array" :key="index">
                             <div class="food_container">
-                                <img src="./images/nav/1.jpg">
+                                <img :src='baseImgUrl+""+item.image_url'>
                             </div>
-                            <span>甜品饮品</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                            <div class="food_container">
-                                <img src="./images/nav/2.jpg">
-                            </div>
-                            <span>商超便利</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                            <div class="food_container">
-                                <img src="./images/nav/3.jpg">
-                            </div>
-                            <span>美食</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                            <div class="food_container">
-                                <img src="./images/nav/4.jpg">
-                            </div>
-                            <span>简餐</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                            <div class="food_container">
-                                <img src="./images/nav/5.jpg">
-                            </div>
-                            <span>新店特惠</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                            <div class="food_container">
-                                <img src="./images/nav/6.jpg">
-                            </div>
-                            <span>准时达</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                            <div class="food_container">
-                                <img src="./images/nav/7.jpg">
-                            </div>
-                            <span>预订早餐</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                            <div class="food_container">
-                                <img src="./images/nav/8.jpg">
-                            </div>
-                            <span>土豪推荐</span>
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href="javascript:" class="link_to_food">
-                            <div class="food_container">
-                                <img src="./images/nav/9.jpg">
-                            </div>
-                            <span>甜品饮品</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                            <div class="food_container">
-                                <img src="./images/nav/10.jpg">
-                            </div>
-                            <span>商超便利</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                            <div class="food_container">
-                                <img src="./images/nav/11.jpg">
-                            </div>
-                            <span>美食</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                            <div class="food_container">
-                                <img src="./images/nav/12.jpg">
-                            </div>
-                            <span>简餐</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                            <div class="food_container">
-                                <img src="./images/nav/13.jpg">
-                            </div>
-                            <span>新店特惠</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                            <div class="food_container">
-                                <img src="./images/nav/14.jpg">
-                            </div>
-                            <span>准时达</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                            <div class="food_container">
-                                <img src="./images/nav/1.jpg">
-                            </div>
-                            <span>预订早餐</span>
-                        </a>
-                        <a href="javascript:" class="link_to_food">
-                            <div class="food_container">
-                                <img src="./images/nav/2.jpg">
-                            </div>
-                            <span>土豪推荐</span>
+                            <span>{{item.title}}</span>
                         </a>
                     </div>
                 </div>
                 <!-- Add Pagination -->
                 <div class="swiper-pagination"></div>
             </div>
+            <img src="./images/msite_back.svg" v-else alt="bacak">
         </nav>
         <!--首页附近商家-->
         <div class="msite_shop_list">
@@ -134,21 +43,59 @@
     import Swiper from 'swiper'
     import 'swiper/css/swiper.css'
 
+    import {mapActions, mapState} from 'vuex'
+
+
     export default {
         //父组件传递的参数
         props: {},
         //import引入的组件需要注入到对象中才能使用",
-        components: {HeaderTop,ShopList},
+        components: {HeaderTop, ShopList},
         data() {
             //这里存放数据",
-            return {}
+            return {
+                baseImgUrl: 'https://fuss10.elemecdn.com/'
+            }
         },
         //监听属性 类似于data概念",
-        computed: {},
+        computed: {
+            ...mapState(['address', 'categorys']),
+            categoryArray() {
+                const {categorys} = this;
+                return this.arrTrans(8, categorys)
+            }
+        },
         //监控data中的数据变化",
-        watch: {},
+        watch: {
+            categorys: {
+                deep: true,
+                handler() {
+                    this.$nextTick(() => {
+                        let mySwiper = new Swiper('.swiper-container', {
+                            loop: true,
+                            pagination: {
+                                el: '.swiper-pagination',
+                            },
+                        })
+                    })
+                }
+            }
+        },
         //方法集合",
-        methods: {},
+        methods: {
+            ...mapActions(['receive_categorys', 'receive_address', 'receive_shops']),
+            arrTrans(num, arr) { // 一维数组转换为二维数组
+                const iconsArr = []; // 声明数组
+                arr.forEach((item, index) => {
+                    const page = Math.floor(index / num); // 计算该元素为第几个素组内
+                    if (!iconsArr[page]) { // 判断是否存在
+                        iconsArr[page] = [];
+                    }
+                    iconsArr[page].push(item);
+                });
+                return iconsArr;
+            }
+        },
         //生命周期 - 创建之前",数据模型未加载,方法未加载,html模板未加载
         beforeCreate() {
         },
@@ -164,12 +111,9 @@
 
         //生命周期 - 挂载完成（可以访问DOM元素）",html模板已渲染
         mounted() {
-            let mySwiper = new Swiper('.swiper-container', {
-                loop: true,
-                pagination: {
-                    el: '.swiper-pagination',
-                },
-            })
+            this.receive_categorys();
+            this.receive_address();
+            this.receive_shops();
         },
 
         //生命周期 - 更新之前",数据模型已更新,html模板未更新
