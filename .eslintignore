@@ -1,0 +1,10 @@
+/build/
+/config/
+/dist/
+/*.js
+/pages/
+/components/
+/router/
+/store/
+mock_config
+src
