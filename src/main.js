@@ -5,6 +5,15 @@ import App from './App'
 import router from './router'
 import store from './store'
 
+import vRegion from 'v-region';
+Vue.use(vRegion);
+
+import Dialog from 'v-dialogs'
+Vue.use(Dialog);
+
+import Suggest from 'v-suggest'
+Vue.use(Suggest);
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

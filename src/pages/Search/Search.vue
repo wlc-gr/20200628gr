@@ -66,6 +66,7 @@ import HeaderTop from "../../components/HeaderTop/HeaderTop";
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
     .search  //搜索
+        overflow hidden
         width 100%
         .search_form
             clearFix()
