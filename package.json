@@ -14,7 +14,7 @@
     "axios": "^0.19.2",
     "better-scroll": "^1.15.2",
     "dayjs": "^1.8.28",
-    "swiper": "^5.4.5",
+    "swiper": "^6.5.1",
     "v-dialogs": "^2.1.4",
     "v-region": "^2.2.2",
     "v-suggest": "^2.2.0",
